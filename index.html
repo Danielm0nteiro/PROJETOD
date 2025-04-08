@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <head>
+        <meta name="theme-color" content="#1C1C1C">
+      </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESGRAÇA FEST 3.0</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            color: #ffffff;
+            font-family: 'Arial Black', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .background-slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .background-slider .carousel-item {
+            height: 100vh;
+        }
+        
+        .background-slider .carousel-item img,
+        .background-slider .carousel-item video {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            filter: brightness(0.4);
+        }
+        
+        .background-slider .carousel-item video {
+            object-fit: cover;
+        }
+        
+        .content-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 90%;
+        }
+        
+        .main-title {
+            font-size: 4rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+        }
+        
+        .countdown-container {
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .countdown-box {
+            display: inline-block;
+            margin: 0 10px;
+            text-align: center;
+        }
+        
+        .countdown-value {
+            font-size: 5rem;
+            font-weight: bold;
+            line-height: 1;
+            color: #f7f2f2;
+            text-shadow: 0 0 5px #eb0d0d;
+        }
+        
+        .countdown-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        
+        .links-container {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .link-item {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+        }
+        
+        .link-item:hover {
+            transform: scale(1.1);
+            color: #ff0000;
+            text-decoration: none;
+        }
+        
+        .link-item i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgb(10, 9, 9);
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .music-control i {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-value {
+                font-size: 3rem;
+            }
+            
+            .content-overlay {
+                padding: 1rem;
+            }
+            
+            .music-control {
+                width: 40px;
+                height: 40px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .links-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .link-item {
+                font-size: 1rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Áudio para a música de fundo -->
+    <audio id="backgroundMusic" loop>
+        <source src="heads-will-roll-a-trak-remix.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+    
+    <!-- Controle de música -->
+    <div class="music-control" id="musicControl" title="Play/Pause">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- Carrossel de fundo com imagens e vídeos -->
+    <div id="backgroundSlider" class="background-slider carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <!-- Slide-->
+            <div class="carousel-item active">
+                <img src="fotos/1.jpg" class="d-block w-100" alt="1">
+            </div>
+            
+            <!-- Slide-->
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/test1.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            
+            <!--imagens -->
+            <div class="carousel-item">
+                <img src="fotos/3.jpg" class="d-block w-100" alt="3">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/17.jpg" class="d-block w-100" alt="4">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/5.jpg" class="d-block w-100" alt="5">
+            </div>
+            
+            <!-- Slide-->
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/0410.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/test2.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            
+            <!--imagens -->
+            <div class="carousel-item">
+                <img src="fotos/7.jpg" class="d-block w-100" alt="7">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/8.jpg" class="d-block w-100" alt="8">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/9.jpg" class="d-block w-100" alt="9">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/10.jpg" class="d-block w-100" alt="10">
+            </div>
+            
+            <!-- Slide-->
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/test3.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            <!-- Slide-->
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/test4.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            <!-- Slide -->
+            <div class="carousel-item">
+                <video autoplay muted loop class="d-block w-100">
+                    <source src="fotos/test6.mp4" type="video/mp4">
+                    Seu navegador não suporta vídeos HTML5.
+                </video>
+            </div>
+            
+            <!--imagens -->
+            <div class="carousel-item">
+                <img src="fotos/12.jpg" class="d-block w-100" alt="12">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/13.jpg" class="d-block w-100" alt="13">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/14.jpg" class="d-block w-100" alt="14">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/15.jpg" class="d-block w-100" alt="15">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/16.jpg" class="d-block w-100" alt="16">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/17.jpg" class="d-block w-100" alt="17">
+            </div>
+            <div class="carousel-item">
+                <img src="fotos/18.jpg" class="d-block w-100" alt="18">
+            </div>
+        </div>
+    </div>
+
+    <!-- Conteúdo principal sobreposto -->
+    <div class="content-overlay">
+        <div class="container text-center">
+            <h1 class="main-title animate__animated animate__bounceIn">PROJETO D 3.0</h1>
+            
+            <div class="countdown-container">
+                <h2 class="mb-4">02/05/2025</h2>
+                <div class="d-flex justify-content-center">
+                    <div class="countdown-box">
+                        <div id="days" class="countdown-value">00</div>
+                        <div class="countdown-label">Dias</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div id="hours" class="countdown-value">00</div>
+                        <div class="countdown-label">Horas</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div id="minutes" class="countdown-value">00</div>
+                        <div class="countdown-label">Minutos</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div id="seconds" class="countdown-value">00</div>
+                        <div class="countdown-label">Seg</div>
+                    </div>
+                </div>
+                
+                <!-- Links adicionados abaixo da contagem regressiva -->
+                <div class="links-container">
+                    <a href="https://drive.google.com/drive/folders/1iiBrYtwJKKHni8U-MmScDVhm6Qqs2ZXU?usp=drive_link" class="link-item" target="_blank">
+                        <i class="fas fa-camera"></i> Fotos
+                    </a>
+                    <a href="https://www.youtube.com/playlist?list=PLf7zF8bedRpDezKg6hDE5G-Sl9QfX8sRH&jct=DcBMWst_73CQ77sVCCAAjQ" class="link-item" target="_blank">
+                        <i class="fab fa-youtube"></i> Playlist
+                    </a>
+                    <a href="https://maps.app.goo.gl/WwX6Rc7i1NQVhDHCA" class="link-item" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> Localização
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Data alvo: 02 de maio de 2025
+        const targetDate = new Date('2025-05-02T00:00:00').getTime();
+        
+        // Atualiza a contagem regressiva a cada segundo
+        const countdown = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            
+            // Cálculos para dias, horas, minutos e segundos
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            // Exibe o resultado nos elementos
+            document.getElementById('days').innerHTML = days.toString().padStart(2, '0');
+            document.getElementById('hours').innerHTML = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
+            
+            // Se a contagem regressiva terminar
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.querySelector('.countdown-container').innerHTML = '<h2 class="animate__animated animate__heartBeat">A DESGRAÇA COMEÇOU!</h2>';
+                createConfetti();
+            }
+        }, 1000);
+        
+        // Função para criar efeito de confete
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = -10 + 'px';
+                confetti.style.opacity = '1';
+                document.body.appendChild(confetti);
+                
+                // Animação do confete
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.transition = `top ${animationDuration}s linear, transform ${animationDuration}s ease-out`;
+                
+                setTimeout(() => {
+                    confetti.style.top = window.innerHeight + 'px';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg) translateX(${Math.random() * 200 - 100}px)`;
+                }, 10);
+                
+                // Remove o confete após a animação
+                setTimeout(() => {
+                    confetti.remove();
+                }, animationDuration * 1000);
+            }
+            
+            // Continua criando confetes enquanto o evento estiver acontecendo
+            if (new Date().getTime() < targetDate + 86400000) { // 24 horas após o evento
+                setTimeout(createConfetti, 300);
+            }
+        }
+        
+        // Controle de música
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('backgroundMusic');
+            const musicControl = document.getElementById('musicControl');
+            let musicPlaying = false;
+            
+            // Tenta reproduzir a música automaticamente (com tratamento para autoplay policies)
+            function playMusic() {
+                music.volume = 0.5; // Define o volume para 50%
+                const playPromise = music.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        musicPlaying = true;
+                        musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                    })
+                    .catch(error => {
+                        musicPlaying = false;
+                        musicControl.innerHTML = '<i class="fas fa-play"></i>';
+                        // Mostra alerta para o usuário interagir
+                        musicControl.style.display = 'flex';
+                    });
+                }
+            }
+            
+            // Inicia a música após um pequeno delay para melhor compatibilidade
+            setTimeout(playMusic, 500);
+            
+            // Controle de play/pause
+            musicControl.addEventListener('click', function() {
+                if (musicPlaying) {
+                    music.pause();
+                    musicControl.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    music.play();
+                    musicControl.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                musicPlaying = !musicPlaying;
+            });
+            
+            // Pausa vídeos quando não estão visíveis
+            const carousel = document.getElementById('backgroundSlider');
+            carousel.addEventListener('slid.bs.carousel', function () {
+                const activeItem = this.querySelector('.active');
+                const videos = this.querySelectorAll('video');
+                
+                videos.forEach(video => {
+                    if (video.parentElement !== activeItem) {
+                        video.pause();
+                    } else {
+                        video.play();
+                    }
+                });
+            });
+            
+            // Inicia o vídeo ativo inicialmente
+            const initialActiveVideo = carousel.querySelector('.active video');
+            if (initialActiveVideo) {
+                initialActiveVideo.play();
+            }
+            
+            // Efeito inicial de empolgação
+            setTimeout(() => {
+                const title = document.querySelector('.main-title');
+                title.classList.remove('animate__bounceIn');
+                title.classList.add('animate__rubberBand');
+                
+                setTimeout(() => {
+                    title.classList.remove('animate__rubberBand');
+                }, 1000);
+            }, 1000);
+            
+            // Configura o carrossel para trocar a cada 3 segundos
+            new bootstrap.Carousel(carousel, {
+                interval: 1000,
+                wrap: true
+            });
+        });
+    </script>
+</body>
+</html>
